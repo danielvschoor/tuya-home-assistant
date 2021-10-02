@@ -543,13 +543,22 @@ class TuyaHaSensor(TuyaHaDevice, SensorEntity):
         super().__init__(device, device_manager)
         self._code = sensor_code
         self._attr_device_class = sensor_type
-        self._attr_name = self.tuya_device.name + "_" + self._attr_device_class
-        self._attr_unique_id = f"{super().unique_id}{self._code}"
+        # self._attr_name = self.tuya_device.name + "_" + self._attr_device_class
+        # self._attr_unique_id = f"{super().unique_id}{self._code}"
         self._attr_unit_of_measurement = sensor_unit
         self._attr_state_class = sensor_state_class
         self._attr_available = True
         
+    @property
+    def unique_id(self):
+        """Return a unique ID."""
+        return f"{super().unique_id}{self._code}"
 
+    @property
+    def name(self):
+        """Return the name of the sensor."""
+        return self.tuya_device.name + "_" + self._attr_device_class
+        
     @property
     def state(self) -> StateType:
         """Return the state of the sensor."""
